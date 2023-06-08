@@ -71,5 +71,5 @@ workflows:
           attach-workspace: false 
           login-server-name: pswacr.azurecr.io 
           registry-name: pswacr 
-          repo: pswacr.azurecr.io/pswacr
+          repo: spring-demo-app
           context: org-global

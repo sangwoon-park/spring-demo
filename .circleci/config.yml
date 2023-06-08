@@ -2,6 +2,9 @@
 # See: https://circleci.com/docs/language-java/
 version: 2
 
+orbs:
+  azure-acr: circleci/azure-acr@0.2.1
+
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/configuration-reference/#jobs
 jobs:
@@ -41,6 +44,8 @@ jobs:
           paths:
             - ~/.gradle
           key: v1-dependencies-{{ checksum "build.gradle" }}
+      
+      - run: ./gradlew build -x test
 
       # run tests!
       - run: ./gradlew test
@@ -54,3 +59,13 @@ jobs:
           
       - store_test_results:
           path: ~/test-results
+  
+  azure-acr/build-and-push-image:
+    environment:
+      AZURE_USERNAME: sw1567.park@gmail.com
+      AZURE_PASSWORD: akthtkddns7*
+    alternate-tenant: false 
+    attach-workspace: false 
+    login-server-name: pswacr.azurecr.io 
+    registry-name: pswacr 
+    repo: pswacr.azurecr.io/pswacr 

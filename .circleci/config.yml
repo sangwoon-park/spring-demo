@@ -59,13 +59,17 @@ jobs:
           
       - store_test_results:
           path: ~/test-results
-  
-  azure-acr/build-and-push-image:
-    environment:
-      AZURE_USERNAME: sw1567.park@gmail.com
-      AZURE_PASSWORD: akthtkddns7*
-    alternate-tenant: false 
-    attach-workspace: false 
-    login-server-name: pswacr.azurecr.io 
-    registry-name: pswacr 
-    repo: pswacr.azurecr.io/pswacr 
+
+workflows:
+  build_and_test:
+    jobs:
+      - build
+      - azure-acr/build-and-push-image:
+          environment:
+            AZURE_USERNAME: sw1567.park@gmail.com
+            AZURE_PASSWORD: akthtkddns7*
+          alternate-tenant: false 
+          attach-workspace: false 
+          login-server-name: pswacr.azurecr.io 
+          registry-name: pswacr 
+          repo: pswacr.azurecr.io/pswacr 

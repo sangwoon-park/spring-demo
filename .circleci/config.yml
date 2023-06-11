@@ -96,6 +96,7 @@ workflows:
           login-server-name: pswacr.azurecr.io 
           registry-name: pswacr 
           repo: spring-demo-app
+          tag: $CIRCLE_WORKFLOW_ID
           context: org-global
       - azure-aks/update-container-image:
           requires:
@@ -103,7 +104,7 @@ workflows:
           get-rollout-status: true 
           watch-rollout-status: true 
           cluster-name: psw-kube 
-          container-image-updates: spring-demo-app=pswacr.azurecr.io/spring-demo-app:latest 
+          container-image-updates: spring-demo-app=pswacr.azurecr.io/spring-demo-app:$CIRCLE_WORKFLOW_ID
           get-admin-credentials: false 
           namespace: demo 
           record: false 

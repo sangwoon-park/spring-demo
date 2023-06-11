@@ -114,3 +114,4 @@ workflows:
           executor:
             name: azure-aks/default
             debian-release: buster
+          context: org-global

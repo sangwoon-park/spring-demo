@@ -14,6 +14,12 @@ executors:
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/configuration-reference/#jobs
 jobs:
+  print:
+    executor: my-executor
+    steps:
+      - run: echo $AZURE_SP
+      - run: echo $AZURE_SP_PASSWORD
+      - run: echo $AZURE_SP_TENANT
   build:
     # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
     # See: https://circleci.com/docs/configuration-reference/#docker-machine-macos-windows-executor
@@ -77,6 +83,8 @@ jobs:
 workflows:
   build_and_test:
     jobs:
+      - print:
+          context: org-global
       - build
       - test:
           requires:

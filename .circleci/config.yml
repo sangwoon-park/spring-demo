@@ -103,7 +103,7 @@ workflows:
           get-rollout-status: true 
           watch-rollout-status: true 
           cluster-name: psw-kube 
-          container-image-updates: spring-demo-app=spring-demo-app:latest 
+          container-image-updates: spring-demo-app=pswacr.azurecr.io/spring-demo-app:latest 
           get-admin-credentials: false 
           namespace: demo 
           record: false 

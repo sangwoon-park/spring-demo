@@ -5,22 +5,19 @@ version: 2.1
 orbs:
   azure-acr: circleci/azure-acr@0.2.1
 
+executors:
+  my-executor:
+    docker:
+      - image: circleci/openjdk:11-jdk
+    working_directory: /tmp/workspace
+
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/configuration-reference/#jobs
 jobs:
   build:
     # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
     # See: https://circleci.com/docs/configuration-reference/#docker-machine-macos-windows-executor
-    docker:
-      # specify the version you desire here
-      - image: circleci/openjdk:11-jdk
-
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/circleci-images/
-      # - image: circleci/postgres:9.4
-
-    working_directory: ~/repo
+    executor: my-executor
 
     environment:
       # Customize the JVM maximum heap limit
@@ -47,6 +44,21 @@ jobs:
       
       - run: ./gradlew build -x test
 
+      - persist_to_workspace:
+          # Must be an absolute path, or relative path from working_directory. This is a directory on the container which is
+          # taken to be the root directory of the workspace.
+          root: /tmp
+          # Must be relative path from root
+          paths:
+            - workspace
+
+  test:
+    executor: my-executor
+    
+    steps:
+      - attach_workspace:
+      # Must be absolute path or relative path from working_directory
+          at: /tmp
       # run tests!
       - run: ./gradlew test
       
@@ -66,6 +78,9 @@ workflows:
   build_and_test:
     jobs:
       - build
+      - test:
+          requires:
+            - build
       - azure-acr/build-and-push-image:
           alternate-tenant: false 
           attach-workspace: false 

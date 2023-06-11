@@ -4,6 +4,7 @@ version: 2.1
 
 orbs:
   azure-acr: circleci/azure-acr@0.2.1
+  azure-aks: circleci/azure-aks@0.3.0
 
 executors:
   my-executor:
@@ -84,12 +85,9 @@ workflows:
       - approval:
           type: approval
           requires:
-            - build
             - test
       - azure-acr/build-and-push-image:
           requires:
-            - build
-            - test
             - approval
           alternate-tenant: false 
           attach-workspace: true
@@ -99,3 +97,17 @@ workflows:
           registry-name: pswacr 
           repo: spring-demo-app
           context: org-global
+      - azure-aks/update-container-image:
+          requires:
+            - azure-acr/build-and-push-image
+          get-rollout-status: true 
+          watch-rollout-status: true 
+          cluster-name: psw-kube 
+          container-image-updates: spring-demo-app=spring-demo-app:latest 
+          get-admin-credentials: false 
+          namespace: demo 
+          record: false 
+          resource-group: psw-kube_group 
+          resource-name: deployment/spring-demo-app 
+          show-kubectl-command: true 
+          subscription: Azure subscription 1 

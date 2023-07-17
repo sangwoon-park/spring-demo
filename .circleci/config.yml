@@ -111,7 +111,7 @@ workflows:
           resource-group: psw-group 
           resource-name: deployment/spring-demo-app 
           show-kubectl-command: true 
-          subscription: Azure subscription 1 
+          subscription: 2b09e706-72c8-457c-9b42-b8438418671e
           executor:
             name: azure-aks/default
             debian-release: buster

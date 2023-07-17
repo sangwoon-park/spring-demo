@@ -93,8 +93,8 @@ workflows:
           attach-workspace: true
           workspace-root: /tmp
           path: /tmp/workspace 
-          login-server-name: pswacr.azurecr.io 
-          registry-name: pswacr 
+          login-server-name: pswacr2.azurecr.io
+          registry-name: pswacr2
           repo: spring-demo-app
           tag: $CIRCLE_WORKFLOW_ID
           context: org-global
@@ -103,12 +103,12 @@ workflows:
             - azure-acr/build-and-push-image
           get-rollout-status: true 
           watch-rollout-status: true 
-          cluster-name: psw-kube 
-          container-image-updates: spring-demo-app=pswacr.azurecr.io/spring-demo-app:$CIRCLE_WORKFLOW_ID
+          cluster-name: psw-aks 
+          container-image-updates: spring-demo-app=pswacr2.azurecr.io/spring-demo-app:$CIRCLE_WORKFLOW_ID
           get-admin-credentials: false 
           namespace: demo 
           record: false 
-          resource-group: psw-kube_group 
+          resource-group: psw-group 
           resource-name: deployment/spring-demo-app 
           show-kubectl-command: true 
           subscription: Azure subscription 1 

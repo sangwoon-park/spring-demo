@@ -113,6 +113,6 @@ workflows:
           show-kubectl-command: true 
           subscription: 2b09e706-72c8-457c-9b42-b8438418671e
           executor:
-            name: azure-aks/default
-            debian-release: buster
+            name: azure-aks/azure-docker
+#            debian-release: buster
           context: org-global
